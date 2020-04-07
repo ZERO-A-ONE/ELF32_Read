@@ -73,3 +73,31 @@ func ByteToInt(b []byte) int {
 
 	return int(x)
 }
+func Int16ToBytes(i int16) []byte {
+	buf := make([]byte, 8)
+	binary.BigEndian.PutUint16(buf, uint16(i))
+	return buf
+}
+
+func BytesToInt16(buf []byte) int16 {
+	return int16(binary.BigEndian.Uint16(buf))
+}
+func Int32ToBytes(i int32) []byte {
+	buf := make([]byte, 16)
+	binary.BigEndian.PutUint32(buf, uint32(i))
+	return buf
+}
+
+func BytesToInt32(buf []byte) int32 {
+	return int32(binary.BigEndian.Uint32(buf))
+}
+//小端序转大端序
+func LSBtoMSB(lsb []byte) []byte{
+	buf := make([]byte, len(lsb))
+	index := 0
+	for i:= len(lsb)-1;i>=0;i--{
+		buf[index] = lsb[i]
+		index++
+	}
+	return buf
+}

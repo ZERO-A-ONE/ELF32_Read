@@ -1,7 +1,13 @@
 package FILEstruct
 //ELF_Header
 type Elf32_Ehdr struct {
-	e_ident [EI_NIDENT]u_char
+	//e_ident [EI_NIDENT]u_char
+	Ehdr_Magic string
+	Ehdr_Class int
+	Ehdr_Data int
+	Ehdr_Version int
+	Ehdr_OS int
+	Ehdr_ABIV int
 	/*
 	e_ident 这是一个数组,其每个字节又都有所代表的含义
 	EI_MAG0 - EI_MAG3 文件标识就是平时所说的ELF头
