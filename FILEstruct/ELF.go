@@ -47,20 +47,21 @@ type Elf32_Ehdr struct {
 //Program Header
 type Elf32_phdr struct {
 	p_type Elf32_Word
-	//段类型
+	//此数组元素描述的段的类型，或者如何解释此数组元素的信息
 	p_offset Elf32_Off
-	//段相对于文件的索引地址
+	//此成员给出从文件头到该段第一个字节的偏移
 	p_vaddr Elf32_Addr
-	//段在内存中的虚拟地址
+	//此成员给出段的第一个字节将被放到内存中的虚拟地址
 	p_paddr Elf32_Addr
-	//段的物理地址
+	//此成员仅用于与物理地址相关的系统中。System V忽略所有应用程序的物理地址信息
 	p_filesz Elf32_Word
-	//段在文件中所占的长度
+	//此成员给出段在文件映像中所占的字节数。可以为0
 	p_memsz Elf32_Word
-	//段在内存中所占的长度
+	//此成员给出段在内存映像中占用的字节数。可以为0
 	p_flage Elf32_Word
-	//段相关标志(read、write、exec)
+	//此成员给出与段相关的标志(read、write、exec)
 	p_align Elf32_Word
+	//此成员给出段在文件中和内存中如何对齐
 	//字节对其,p_vaddr 和 p_offset 对 p_align 取模后应该等于0
 }
 //Section Header Table

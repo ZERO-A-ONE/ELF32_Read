@@ -1,6 +1,9 @@
 package main
 
-import "../FILEstruct"
+import (
+	"../FILEstruct"
+	"fmt"
+)
 func main() {
 	ReadArgs()
 	var data []byte
@@ -14,5 +17,9 @@ func main() {
 	Ehdr = Ehdr.ReadHeader(data)
 	//fmt.Println(Ehdr)
 	Ehdr.PHeader()
+	fmt.Println("")
+	var phdr FILEstruct.Elf32_phdr
+	phdr.PHeader(Ehdr)
+	phdr.MainRead(Ehdr,data)
 }
 
