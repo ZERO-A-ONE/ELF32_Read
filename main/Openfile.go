@@ -8,16 +8,16 @@ func Openfile(Fpath string) []byte{
 	//1.打开文件
 	fp, err := os.Open(Fpath)
 	if err != nil {
-		fmt.Println("打开文件失败",err)
+		fmt.Println("Open File Error",err)
 	}else{
-		fmt.Println("打开文件成功")
+		//fmt.Println("打开文件成功")
 	}
 	//2.关闭文件
 	defer func() {
 		if err = fp.Close(); err != nil {
-			fmt.Println("关闭文件失败",err)
+			//fmt.Println("关闭文件失败",err)
 		}else{
-			fmt.Println("关闭文件成功")
+			//fmt.Println("关闭文件成功")
 		}
 	}()
 	//3.文件信息获取
@@ -34,9 +34,9 @@ func Openfile(Fpath string) []byte{
 	var b []byte = make([]byte,2*finfo.Size())
 	_, err = fp.Read(b)
 	if err != nil{
-		fmt.Println("读取文件失败",err)
+		fmt.Println("Read File Error",err)
 	}else{
-		fmt.Println("读取文件成功")
+		//fmt.Println("读取文件成功")
 	}
 	return b
 	//4.读取文件

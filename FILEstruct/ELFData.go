@@ -6,3 +6,5 @@ type Elf32_Off = uint32
 type Elf32_SWord = int32
 type Elf32_Word = uint32
 type u_char = byte
+
+

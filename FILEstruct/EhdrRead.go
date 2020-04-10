@@ -89,6 +89,45 @@ func (phdr Elf32_phdr) MainRead(Ehdr Elf32_Ehdr,data []byte){
 	}
 }
 func (phdr Elf32_phdr) SonRead(StartIndex int64,data []byte,size int64){
+	PType := map[int]string{
+		0x0:"NULL",
+		0x1:"LOAD",
+		0x2:"DYNAMIC",
+		0x3:"INERP",
+		0x4:"NOTE",
+		0x5:"SHLIB",
+		0x6:"PHDR",
+		0x7:"TLS",
+		0x8:"NUM",
+		0x60000000:"LOOS",
+		0x6474e550:"GNU_EH_FRAME",
+		0x6474e551:"GNU_STACK",
+		0x6474e552:"GNU_RELRO",
+		0x6ffffffa:"LOSUNW",
+		0x6ffffffc:"SUNWBSS",
+		0x6ffffffb:"SUNWSTACK",
+		0x6fffffff:"HISUNW ",
+		0x6ffffffe:"HIOS",
+		0x70000000:"LOPROC",
+		0x7fffffff:"HIPROC",
+		// ARM Sections
+		0x70000001:"ARM_EXIDX",
+		0x70000002:"ARM_PREEMPTMAP",
+		0x70000003:"ARM_ATTRIBUTES",
+		0x70000004:"ARM_DEBUGOVERLAY",
+		0x70000005:"ARM_OVERLAYSECTION",
+	}
+	PFlag := map[int]string{
+		0:"N",
+		1:"__E",
+		2:"_W_",
+		3:"_WE",
+		4:"R__",
+		5:"R_E",
+		6:"RW_",
+		7:"RWE",
+	}
+
 	var t_phdr Elf32_phdr
 	var t_data []byte = data[StartIndex:StartIndex+size]
 	//fmt.Println(t_data)
@@ -126,31 +165,11 @@ func (phdr Elf32_phdr) SonRead(StartIndex int64,data []byte,size int64){
 	t_phdr.p_align = Elf32_Word(Change.BytesToInt32(tmp))
 	//开始打印
 	//p_type
-	switch t_phdr.p_type {
-	case 0:fmt.Printf("%-13s","NULL")
-	case 1:fmt.Printf("%-13s","LOAD")
-	case 2:fmt.Printf("%-13s","DYNAMIC")
-	case 3:fmt.Printf("%-13s","INTERP")
-	case 4:fmt.Printf("%-13s","NOTE")
-	case 5:fmt.Printf("%-13s","SHLIB")
-	case 6:fmt.Printf("%-13s","PHDR")
-	case 7:fmt.Printf("%-13s","TLS")
-	case 8:fmt.Printf("%-13s","NUM")
-	case 0x60000000:fmt.Printf("%-13s","LOOS")
-	case 0x6474e550:fmt.Printf("%-13s","GNU_EH_FRAME")
-	case 0x6474e551:fmt.Printf("%-13s","GNU_STACK")
-	case 0x6474e552:fmt.Printf("%-13s","GNU_RELRO")
-	case 0x6ffffffa:fmt.Printf("%-13s","LOSUNW")
-	case 0x6ffffffb:fmt.Printf("%-13s","SUNWSTACK")
-	case 0x6fffffff:fmt.Printf("%-13s","HISUNW")
-	case 0x70000000:fmt.Printf("%-13s","LOPROC")
-	case 0x7fffffff:fmt.Printf("%-13s","HIPROC")
-	//ARM Sections
-	case 0x70000001:fmt.Printf("%-13s","HIPROC")
-	case 0x70000002:fmt.Printf("%-13s","PREEMPTMAP")
-	case 0x70000003:fmt.Printf("%-13s","ATTRIBUTES")
-	case 0x70000004:fmt.Printf("%-13s","DEBUGOVERLAY")
-	case 0x70000005:fmt.Printf("%-13s","OVERLAYSECTION")
+	tmpstr := PType[int(int32(t_phdr.p_type))]
+	if tmpstr ==""{
+		fmt.Printf("%-13s","Unknown")
+	}else{
+		fmt.Printf("%-13s",tmpstr)
 	}
 	//p_offset
 	fmt.Print("  ")
@@ -170,15 +189,11 @@ func (phdr Elf32_phdr) SonRead(StartIndex int64,data []byte,size int64){
 	fmt.Printf("%-8s",tstr)
 	//p_flage
 	//R:Read W:Write E:Exec N:None
-	switch t_phdr.p_flage {
-	case 0:fmt.Printf("%-4s","N")
-	case 1:fmt.Printf("%-4s","__E")
-	case 2:fmt.Printf("%-4s","_W_")
-	case 3:fmt.Printf("%-4s","_WE")
-	case 4:fmt.Printf("%-4s","R__")
-	case 5:fmt.Printf("%-4s","R_E")
-	case 6:fmt.Printf("%-4s","RW_")
-	case 7:fmt.Printf("%-4s","RWE")
+	tmpstr = PFlag[int(int32(t_phdr.p_flage))]
+	if tmpstr ==""{
+		fmt.Printf("%-13s","Unknown")
+	}else{
+		fmt.Printf("%-4s",tmpstr)
 	}
 	//p_align
 	tstr = "0x"+Change.DecHex(int64(t_phdr.p_align))
