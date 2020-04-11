@@ -18,8 +18,15 @@ func main() {
 	//fmt.Println(Ehdr)
 	Ehdr.PHeader()
 	fmt.Println("")
-	var phdr FILEstruct.Elf32_phdr
-	phdr.PHeader(Ehdr)
-	phdr.MainRead(Ehdr,data)
+	var Phdr FILEstruct.Elf32_phdr
+	Phdr.PHeader(Ehdr)
+	Phdr.MainRead(Ehdr,data)
+	var Shdr FILEstruct.Elf32_Shdr
+	//ShName := Shdr.Findshstrtab(Ehdr,data)
+	//t_Str := Shdr.FindName(0x1,ShName)
+	//fmt.Println(t_Str)
+	Shdr.PHeader(Ehdr)
+	Shdr.Mainread(Ehdr,data)
+	//Shdr.Findshstrtab(Ehdr,data)
 }
 
