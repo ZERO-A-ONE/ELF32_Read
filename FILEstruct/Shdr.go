@@ -100,7 +100,17 @@ func (Shdr Elf32_Shdr) SonRead(i int,StartIndex int64,data []byte,size int64,Ehd
 		0x80000000:"LOUSER",/* Start of application-specific */
 		0x8fffffff:"HIUSER",/* Ennd of application-specific */
 	}
-
+	ShFlag := map[int]string{
+		0x0:"",
+		0x1:"W",
+		0x2:"A",
+		0x3:"WA",
+		0x4:"",
+		0x5:"",
+		0x6:"AX",
+		0x30:"MS",
+		0x42:"AI",
+	}
 
 	//fmt.Println(t_data)
 	//sh_name Elf32_Word
@@ -164,4 +174,30 @@ func (Shdr Elf32_Shdr) SonRead(i int,StartIndex int64,data []byte,size int64,Ehd
 	}else{
 		fmt.Printf("%-16s",tmpstr)
 	}
+	//Addr
+	tmpstr = Change.DecHex(int64(t_shdr.sh_addr))
+	fmt.Printf("%-9s",tmpstr)
+	//Off
+	tmpstr = Change.DecHex(int64(t_shdr.sh_offset))
+	fmt.Printf("%-7s",tmpstr)
+	//Size
+	tmpstr = Change.DecHex(int64(t_shdr.sh_size))
+	fmt.Printf("%-7s",tmpstr)
+	//ES
+	tmpstr = Change.DecHex(int64(t_shdr.sh_entsize))
+	fmt.Printf("%-3s",tmpstr)
+	//Flg
+	tmpstr = ShFlag[int(int32(t_shdr.sh_flags))]
+	fmt.Printf("%3s",tmpstr)
+	//Lk
+	tmpstr = Change.DecHex(int64(t_shdr.sh_link))
+	fmt.Printf("%3s",tmpstr)
+	//Inf
+	tmpstr = Change.DecHex(int64(t_shdr.sh_info))
+	fmt.Print(" ")
+	fmt.Printf("%3s",tmpstr)
+	//Al
+	tmpstr = Change.DecHex(int64(t_shdr.sh_addralign))
+	fmt.Print(" ")
+	fmt.Printf("%2s",tmpstr)
 }
